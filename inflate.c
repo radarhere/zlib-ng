@@ -179,6 +179,8 @@ Z_INTERNAL inflate_allocs* alloc_inflate(PREFIX3(stream) *strm) {
 
     printf("DebugA 50\n");
     printf(strm->zalloc == NULL ? "zalloc null\n" : "zalloc not null\n");
+    printf(strm->opaque == NULL ? "opaque null\n" : "opaque not null\n");
+    printf("total_size %d\n", total_size);
     /* Allocate buffer, align to 64-byte cacheline, and zerofill the resulting buffer */
     char *original_buf = (char *)strm->zalloc(strm->opaque, 1, total_size);
     printf("DebugA 51\n");
