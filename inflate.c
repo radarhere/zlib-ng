@@ -235,6 +235,7 @@ int32_t ZNG_CONDEXPORT PREFIX(inflateInit2)(PREFIX3(stream) *strm, int32_t windo
     if (strm->zfree == NULL)
         strm->zfree = PREFIX(zcfree);
 
+    printf("Debug: 2a\n");
     inflate_allocs *alloc_bufs = alloc_inflate(strm);
     printf("Debug: 3\n");
     if (alloc_bufs == NULL)
