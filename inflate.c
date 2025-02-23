@@ -150,6 +150,7 @@ int32_t Z_EXPORT PREFIX(inflateReset2)(PREFIX3(stream) *strm, int32_t windowBits
  * Handles alignment of allocated buffer and alignment of individual buffers.
  */
 Z_INTERNAL inflate_allocs* alloc_inflate(PREFIX3(stream) *strm) {
+    printf("DebugA 1\n");
     int curr_size = 0;
 
     /* Define sizes */
@@ -157,15 +158,18 @@ Z_INTERNAL inflate_allocs* alloc_inflate(PREFIX3(stream) *strm) {
     int state_size = sizeof(inflate_state);
     int alloc_size = sizeof(inflate_allocs);
 
+    printf("DebugA 2\n");
     /* Calculate relative buffer positions and paddings */
     LOGSZP("window", window_size, PAD_WINDOW(curr_size), PADSZ(curr_size,WINDOW_PAD_SIZE));
     int window_pos = PAD_WINDOW(curr_size);
     curr_size = window_pos + window_size;
 
+    printf("DebugA 3\n");
     LOGSZP("state", state_size, PAD_64(curr_size), PADSZ(curr_size,64));
     int state_pos = PAD_64(curr_size);
     curr_size = state_pos + state_size;
 
+    printf("DebugA 4\n");
     LOGSZP("alloc", alloc_size, PAD_16(curr_size), PADSZ(curr_size,16));
     int alloc_pos = PAD_16(curr_size);
     curr_size = alloc_pos + alloc_size;
@@ -173,6 +177,7 @@ Z_INTERNAL inflate_allocs* alloc_inflate(PREFIX3(stream) *strm) {
     /* Add 64-1 or 4096-1 to allow window alignment, and round size of buffer up to multiple of 64 */
     int total_size = PAD_64(curr_size + (WINDOW_PAD_SIZE - 1));
 
+    printf("DebugA 5\n");
     /* Allocate buffer, align to 64-byte cacheline, and zerofill the resulting buffer */
     char *original_buf = (char *)strm->zalloc(strm->opaque, 1, total_size);
     if (original_buf == NULL)
@@ -182,12 +187,14 @@ Z_INTERNAL inflate_allocs* alloc_inflate(PREFIX3(stream) *strm) {
     LOGSZPL("Buffer alloc", total_size, PADSZ((uintptr_t)original_buf,WINDOW_PAD_SIZE), PADSZ(curr_size,WINDOW_PAD_SIZE));
 
     /* Initialize alloc_bufs */
+    printf("DebugA 6\n");
     inflate_allocs *alloc_bufs  = (struct inflate_allocs_s *)(buff + alloc_pos);
     alloc_bufs->buf_start = original_buf;
     alloc_bufs->zfree = strm->zfree;
 
     alloc_bufs->window =  (unsigned char *)HINT_ALIGNED_WINDOW((buff + window_pos));
     alloc_bufs->state = (inflate_state *)HINT_ALIGNED_64((buff + state_pos));
+    printf("DebugA 7\n");
 
 #ifdef Z_MEMORY_SANITIZER
     /* This is _not_ to subvert the memory sanitizer but to instead unposion some
