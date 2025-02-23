@@ -178,6 +178,7 @@ Z_INTERNAL inflate_allocs* alloc_inflate(PREFIX3(stream) *strm) {
     int total_size = PAD_64(curr_size + (WINDOW_PAD_SIZE - 1));
 
     printf("DebugA 50\n");
+    printf(strm->zalloc == NULL ? "zalloc null\n" : "zalloc not null\n");
     /* Allocate buffer, align to 64-byte cacheline, and zerofill the resulting buffer */
     char *original_buf = (char *)strm->zalloc(strm->opaque, 1, total_size);
     printf("DebugA 51\n");
