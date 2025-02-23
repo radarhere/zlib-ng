@@ -177,13 +177,16 @@ Z_INTERNAL inflate_allocs* alloc_inflate(PREFIX3(stream) *strm) {
     /* Add 64-1 or 4096-1 to allow window alignment, and round size of buffer up to multiple of 64 */
     int total_size = PAD_64(curr_size + (WINDOW_PAD_SIZE - 1));
 
-    printf("DebugA 5\n");
+    printf("DebugA 50\n");
     /* Allocate buffer, align to 64-byte cacheline, and zerofill the resulting buffer */
     char *original_buf = (char *)strm->zalloc(strm->opaque, 1, total_size);
+    printf("DebugA 51\n");
     if (original_buf == NULL)
         return NULL;
 
+    printf("DebugA 52\n");
     char *buff = (char *)HINT_ALIGNED_WINDOW((char *)PAD_WINDOW(original_buf));
+    printf("DebugA 53\n");
     LOGSZPL("Buffer alloc", total_size, PADSZ((uintptr_t)original_buf,WINDOW_PAD_SIZE), PADSZ(curr_size,WINDOW_PAD_SIZE));
 
     /* Initialize alloc_bufs */
