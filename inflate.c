@@ -217,6 +217,7 @@ Z_INTERNAL void free_inflate(PREFIX3(stream) *strm) {
  * This function is hidden in ZLIB_COMPAT builds.
  */
 int32_t ZNG_CONDEXPORT PREFIX(inflateInit2)(PREFIX3(stream) *strm, int32_t windowBits) {
+    printf("Debug: 1\n");
     struct inflate_state *state;
     int32_t ret;
 
