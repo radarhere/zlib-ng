@@ -226,6 +226,7 @@ int32_t ZNG_CONDEXPORT PREFIX(inflateInit2)(PREFIX3(stream) *strm, int32_t windo
 
     if (strm == NULL)
         return Z_STREAM_ERROR;
+    printf("Debug: 2\n");
     strm->msg = NULL;                   /* in case we return an error */
     if (strm->zalloc == NULL) {
         strm->zalloc = PREFIX(zcalloc);
@@ -235,9 +236,11 @@ int32_t ZNG_CONDEXPORT PREFIX(inflateInit2)(PREFIX3(stream) *strm, int32_t windo
         strm->zfree = PREFIX(zcfree);
 
     inflate_allocs *alloc_bufs = alloc_inflate(strm);
+    printf("Debug: 3\n");
     if (alloc_bufs == NULL)
         return Z_MEM_ERROR;
 
+    printf("Debug: 4\n");
     state = alloc_bufs->state;
     state->window = alloc_bufs->window;
     state->alloc_bufs = alloc_bufs;
@@ -247,11 +250,13 @@ int32_t ZNG_CONDEXPORT PREFIX(inflateInit2)(PREFIX3(stream) *strm, int32_t windo
     strm->state = (struct internal_state *)state;
     state->strm = strm;
     state->mode = HEAD;     /* to pass state test in inflateReset2() */
+    printf("Debug: 5\n");
     state->chunksize = FUNCTABLE_CALL(chunksize)();
     ret = PREFIX(inflateReset2)(strm, windowBits);
     if (ret != Z_OK) {
         free_inflate(strm);
     }
+    printf("Debug: 6\n");
     return ret;
 }
 
