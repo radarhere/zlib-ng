@@ -242,6 +242,7 @@ int32_t ZNG_CONDEXPORT PREFIX(inflateInit2)(PREFIX3(stream) *strm, int32_t windo
     printf("Debug: 2\n");
     strm->msg = NULL;                   /* in case we return an error */
     if (strm->zalloc == NULL) {
+        printf("Debug: Set zcalloc\n");
         strm->zalloc = PREFIX(zcalloc);
         strm->opaque = NULL;
     }
